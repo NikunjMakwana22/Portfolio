@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="minimal">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nikunj Makwana — Game Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Playfair+Display:wght@400;500&family=Press+Start+2P&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ═══════════════════════════════════════════════════════
+   THEMES
+═══════════════════════════════════════════════════════ */
+[data-theme="minimal"] {
+  --bg:#f8f7f5; --surface:#fff; --surface-2:#f0efeb;
+  --border:rgba(0,0,0,0.09); --border-md:rgba(0,0,0,0.16);
+  --txt:#111110; --txt-2:#5c5b57; --txt-3:#9c9b96;
+  --accent:#111110; --accent-fg:#f8f7f5;
+  --tag-bg:#ebebeb; --tag-txt:#5c5b57;
+  --h-font:'DM Sans',sans-serif; --b-font:'DM Sans',sans-serif; --m-font:'DM Mono',monospace;
+  --h-weight:300; --card-r:12px; --crt-glow:none; --scanlines:none;
+}
+[data-theme="dark-editorial"] {
+  --bg:#0e0e0d; --surface:#161615; --surface-2:#1e1e1c;
+  --border:rgba(255,255,255,0.08); --border-md:rgba(255,255,255,0.15);
+  --txt:#e8e6df; --txt-2:#888780; --txt-3:#4a4946;
+  --accent:#e8e6df; --accent-fg:#0e0e0d;
+  --tag-bg:#1e1e1c; --tag-txt:#888780;
+  --h-font:'Playfair Display',serif; --b-font:'DM Sans',sans-serif; --m-font:'DM Mono',monospace;
+  --h-weight:400; --card-r:10px; --crt-glow:none; --scanlines:none;
+}
+[data-theme="retro-crt"] {
+  --bg:#050f05; --surface:#081208; --surface-2:#0b180b;
+  --border:rgba(0,255,65,0.18); --border-md:rgba(0,255,65,0.38);
+  --txt:#00ff41; --txt-2:#00cc34; --txt-3:#006618;
+  --accent:#00ff41; --accent-fg:#050f05;
+  --tag-bg:#0b180b; --tag-txt:#00cc34;
+  --h-font:'Press Start 2P',monospace; --b-font:'DM Mono',monospace; --m-font:'DM Mono',monospace;
+  --h-weight:400; --card-r:2px;
+  --crt-glow:0 0 10px rgba(0,255,65,0.3);
+  --scanlines:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.2) 2px,rgba(0,0,0,0.2) 4px);
+}
+[data-theme="nature"] {
+  --bg:#f4f0e6; --surface:#faf8f2; --surface-2:#edeae0;
+  --border:rgba(80,60,20,0.12); --border-md:rgba(80,60,20,0.22);
+  --txt:#2c2416; --txt-2:#6b5c3e; --txt-3:#a8976e;
+  --accent:#3a5c2e; --accent-fg:#f4f0e6;
+  --tag-bg:#e8e2d0; --tag-txt:#6b5c3e;
+  --h-font:'Fraunces',serif; --b-font:'DM Sans',sans-serif; --m-font:'DM Mono',monospace;
+  --h-weight:300; --card-r:16px; --crt-glow:none; --scanlines:none;
+}
+[data-theme="cyberpunk"] {
+  --bg:#07040f; --surface:#100c1c; --surface-2:#180f28;
+  --border:rgba(220,0,255,0.15); --border-md:rgba(220,0,255,0.32);
+  --txt:#f0e6ff; --txt-2:#a088c0; --txt-3:#50385a;
+  --accent:#dc00ff; --accent-fg:#07040f;
+  --tag-bg:#180f28; --tag-txt:#a088c0;
+  --h-font:'Syne',sans-serif; --b-font:'DM Sans',sans-serif; --m-font:'DM Mono',monospace;
+  --h-weight:700; --card-r:4px; --crt-glow:0 0 16px rgba(220,0,255,0.22); --scanlines:none;
+}
+[data-theme="sunset"] {
+  --bg:#fdf4ea; --surface:#fff9f2; --surface-2:#f5e8d4;
+  --border:rgba(160,70,10,0.12); --border-md:rgba(160,70,10,0.24);
+  --txt:#2a1505; --txt-2:#7a4020; --txt-3:#c07848;
+  --accent:#c84b10; --accent-fg:#fff9f2;
+  --tag-bg:#f0dcc8; --tag-txt:#7a4020;
+  --h-font:'Syne',sans-serif; --b-font:'DM Sans',sans-serif; --m-font:'DM Mono',monospace;
+  --h-weight:500; --card-r:18px; --crt-glow:none; --scanlines:none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--b-font);background:var(--bg);color:var(--txt);font-size:15px;line-height:1.65;min-height:100vh;transition:background .3s,color .3s;}
+[data-theme="retro-crt"] body::after{content:'';position:fixed;inset:0;z-index:9000;background:var(--scanlines);pointer-events:none;}
+a{color:inherit;text-decoration:none;}
+button{font-family:var(--b-font);cursor:pointer;}
+img{display:block;width:100%;object-fit:cover;}
+.wrap{max-width:1100px;margin:0 auto;padding:0 2rem;}
+
+/* ═══════════════════════════════════════════════════════
+   THEME BAR
+═══════════════════════════════════════════════════════ */
+.theme-bar{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);
+  z-index:500;display:flex;align-items:center;gap:6px;
+  background:var(--surface);border:.5px solid var(--border-md);
+  border-radius:100px;padding:6px 12px;
+  box-shadow:0 4px 24px rgba(0,0,0,0.14);
+  transition:background .3s,border-color .3s;white-space:nowrap;
+}
+[data-theme="retro-crt"] .theme-bar{border-radius:0;box-shadow:var(--crt-glow);}
+.theme-bar-label{font-family:var(--m-font);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-3);padding-right:4px;}
+.theme-dot{width:20px;height:20px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s;position:relative;flex-shrink:0;}
+.theme-dot:hover{transform:scale(1.2);}
+.theme-dot.active{border-color:var(--txt);}
+.theme-dot[data-t="minimal"]{background:#e0deda;outline:1px solid #bbb;}
+.theme-dot[data-t="dark-editorial"]{background:#2a2926;outline:1px solid #444;}
+.theme-dot[data-t="retro-crt"]{background:#00ff41;}
+.theme-dot[data-t="nature"]{background:#3a5c2e;}
+.theme-dot[data-t="cyberpunk"]{background:#dc00ff;}
+.theme-dot[data-t="sunset"]{background:#c84b10;}
+.theme-dot::after{
+  content:attr(data-label);
+  position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  font-family:var(--m-font);font-size:9px;letter-spacing:.06em;white-space:nowrap;
+  background:var(--surface);color:var(--txt-2);border:.5px solid var(--border-md);
+  padding:3px 8px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .15s;
+}
+.theme-dot:hover::after{opacity:1;}
+
+/* ═══════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════ */
+nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:.5px solid var(--border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:background .3s;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px;}
+.nav-logo{font-family:var(--m-font);font-size:13px;color:var(--txt);text-shadow:var(--crt-glow);}
+[data-theme="retro-crt"] .nav-logo{font-size:11px;}
+.nav-logo span{color:var(--txt-3);}
+.nav-links{display:flex;gap:1.5rem;}
+.nav-link{font-size:13px;color:var(--txt-2);transition:color .15s;}
+.nav-link:hover{color:var(--txt);}
+
+/* ═══════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════ */
+.hero{padding:5rem 0 3.5rem;}
+.hero-eyebrow{font-family:var(--m-font);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-3);margin-bottom:1.25rem;}
+.hero h1{font-family:var(--h-font);font-size:clamp(28px,5vw,50px);font-weight:var(--h-weight);letter-spacing:-.02em;line-height:1.12;margin-bottom:1.25rem;max-width:660px;text-shadow:var(--crt-glow);transition:font-family .25s;}
+[data-theme="retro-crt"] .hero h1{font-size:clamp(13px,2.2vw,20px);line-height:1.9;letter-spacing:0;}
+.hero h1 strong{font-weight:500;}
+[data-theme="cyberpunk"] .hero h1 strong{color:var(--accent);}
+[data-theme="retro-crt"] .hero h1 strong{font-weight:400;}
+.hero-sub{font-size:15px;color:var(--txt-2);max-width:460px;line-height:1.7;margin-bottom:2rem;}
+[data-theme="retro-crt"] .hero-sub{font-size:12px;}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;}
+.cta-btn{display:inline-block;padding:8px 18px;font-family:var(--m-font);font-size:11px;letter-spacing:.07em;border:.5px solid var(--border-md);border-radius:100px;color:var(--txt-2);background:transparent;transition:background .15s,color .15s,border-color .15s;}
+[data-theme="retro-crt"] .cta-btn,[data-theme="cyberpunk"] .cta-btn{border-radius:0;border-width:1px;}
+.cta-btn:hover{background:var(--accent);color:var(--accent-fg);border-color:var(--accent);}
+
+/* ═══════════════════════════════════════════════════════
+   FILTERS
+═══════════════════════════════════════════════════════ */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:2rem;border-bottom:.5px solid var(--border);margin-bottom:2.5rem;}
+.filter-btn{font-family:var(--m-font);font-size:11px;letter-spacing:.07em;text-transform:lowercase;padding:5px 14px;border:.5px solid var(--border);border-radius:100px;background:transparent;color:var(--txt-3);transition:all .15s;}
+[data-theme="retro-crt"] .filter-btn,[data-theme="cyberpunk"] .filter-btn{border-radius:0;border-width:1px;}
+.filter-btn:hover{border-color:var(--border-md);color:var(--txt-2);}
+.filter-btn.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent);}
+
+/* ═══════════════════════════════════════════════════════
+   GRID
+═══════════════════════════════════════════════════════ */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;margin-bottom:6rem;}
+
+/* ═══════════════════════════════════════════════════════
+   CARD
+═══════════════════════════════════════════════════════ */
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:var(--card-r);overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s,box-shadow .2s;}
+[data-theme="retro-crt"] .card,[data-theme="cyberpunk"] .card{border-width:1px;}
+.card:hover{border-color:var(--border-md);transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.08);}
+[data-theme="cyberpunk"] .card:hover{box-shadow:0 0 22px rgba(220,0,255,0.22);}
+[data-theme="retro-crt"] .card:hover{box-shadow:var(--crt-glow);}
+
+/* ── THUMB CONTAINER ── */
+.card-thumb{
+  aspect-ratio:16/9;
+  position:relative;
+  overflow:hidden;
+  background:var(--surface-2);
+}
+.card-thumb img{
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+  transition:transform .4s ease;
+}
+.card:hover .card-thumb img{ transform:scale(1.04); }
+
+.ss-placeholder{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--m-font);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt-3);
+}
+
+/* play overlay — visible always, brightens on hover */
+.thumb-play-overlay{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.08);
+  transition:background .25s;
+}
+.card:hover .thumb-play-overlay{ background:rgba(0,0,0,0.22); }
+.thumb-play-overlay svg{
+  width:48px;height:48px;
+  opacity:0;
+  transform:scale(0.85);
+  transition:opacity .25s, transform .25s;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+.card:hover .thumb-play-overlay svg{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* video count badge */
+.video-badge{
+  position:absolute;bottom:8px;right:10px;z-index:3;
+  background:rgba(0,0,0,0.62);color:#fff;
+  font-family:var(--m-font);font-size:10px;letter-spacing:.05em;
+  padding:3px 9px;border-radius:100px;
+  display:flex;align-items:center;gap:5px;
+}
+[data-theme="retro-crt"] .video-badge{background:rgba(0,255,65,0.12);color:var(--txt);border:1px solid var(--border-md);border-radius:0;}
+.video-badge svg{width:9px;height:9px;fill:currentColor;}
+
+/* ── CARD BODY ── */
+.card-body{padding:1rem 1.25rem 1.25rem;}
+.card-title{font-family:var(--h-font);font-size:14px;font-weight:500;letter-spacing:-.01em;margin-bottom:5px;text-shadow:var(--crt-glow);}
+[data-theme="retro-crt"] .card-title{font-size:9px;line-height:1.9;}
+.card-desc{font-size:12px;color:var(--txt-2);line-height:1.55;margin-bottom:.75rem;}
+[data-theme="retro-crt"] .card-desc{font-size:11px;}
+.tag-row{display:flex;gap:5px;flex-wrap:wrap;}
+.tag{font-family:var(--m-font);font-size:10px;letter-spacing:.04em;padding:3px 8px;background:var(--tag-bg);color:var(--tag-txt);border:.5px solid var(--border);border-radius:4px;}
+[data-theme="retro-crt"] .tag{border-radius:0;border-width:1px;font-size:9px;}
+[data-theme="cyberpunk"] .tag{border-radius:0;}
+
+/* ═══════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════ */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1.5rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:.5px solid var(--border-md);border-radius:var(--card-r);width:100%;max-width:780px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+[data-theme="retro-crt"] .modal{border-width:1px;box-shadow:var(--crt-glow);}
+[data-theme="cyberpunk"] .modal{box-shadow:0 0 50px rgba(220,0,255,0.28);}
+.modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;border:.5px solid var(--border);background:var(--surface);color:var(--txt-2);font-size:14px;display:flex;align-items:center;justify-content:center;z-index:10;transition:color .15s,border-color .15s;}
+[data-theme="retro-crt"] .modal-close{border-radius:0;}
+.modal-close:hover{color:var(--txt);border-color:var(--border-md);}
+.modal-body{padding:2rem;}
+.modal-title{font-family:var(--h-font);font-size:22px;font-weight:var(--h-weight);letter-spacing:-.02em;margin-bottom:8px;text-shadow:var(--crt-glow);}
+[data-theme="retro-crt"] .modal-title{font-size:13px;line-height:1.9;}
+.modal-desc{font-size:14px;color:var(--txt-2);line-height:1.7;margin-bottom:1.25rem;max-width:600px;}
+.modal-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.75rem;}
+.videos-label{font-family:var(--m-font);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-3);margin-bottom:.6rem;}
+.video-stack{display:flex;flex-direction:column;gap:5px;}
+
+/* compact video row */
+.video-card{
+  display:flex;align-items:center;gap:0;
+  background:var(--surface-2);
+  border:.5px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+  transition:border-color .15s,background .15s;
+  text-decoration:none;color:inherit;
+  height:44px;
+}
+.video-card:hover{border-color:var(--border-md);background:var(--surface);}
+[data-theme="retro-crt"] .video-card{border-radius:0;border-width:1px;}
+
+/* play icon box on the left */
+.video-thumb-wrap{
+  flex-shrink:0;
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--accent);
+  color:var(--accent-fg);
+}
+.video-thumb-wrap svg{width:14px;height:14px;fill:currentColor;}
+
+/* label in the middle */
+.video-card-label{
+  flex:1;padding:0 .75rem;
+  font-family:var(--m-font);font-size:11px;
+  color:var(--txt-2);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+  min-width:0;
+}
+
+/* watch button on the right */
+.video-watch-btn{
+  flex-shrink:0;
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--m-font);font-size:10px;letter-spacing:.06em;
+  padding:0 14px;height:44px;
+  border-left:.5px solid var(--border);
+  background:transparent;color:var(--txt-2);
+  text-decoration:none;white-space:nowrap;
+  transition:background .15s,color .15s;
+}
+.video-card:hover .video-watch-btn{background:var(--accent);color:var(--accent-fg);border-left-color:transparent;}
+.video-watch-btn svg{width:9px;height:9px;fill:currentColor;}
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════ */
+footer{border-top:.5px solid var(--border);padding:2rem 0;margin-bottom:5rem;}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-name{font-family:var(--m-font);font-size:12px;color:var(--txt-3);}
+.footer-links{display:flex;gap:1.25rem;}
+.footer-links a{font-size:13px;color:var(--txt-3);transition:color .15s;}
+.footer-links a:hover{color:var(--txt);}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media(max-width:600px){
+  .wrap{padding:0 1.25rem;}
+  .hero{padding:3rem 0 2.5rem;}
+  .project-grid{grid-template-columns:1fr;}
+  .modal-body{padding:1.25rem;}
+  .theme-bar{gap:4px;padding:5px 10px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <span class="nav-logo">nikunj<span>Makwana</span></span>
+    <div class="nav-links">
+      <a href="#work"  class="nav-link">work</a>
+      <a href="#about" class="nav-link">about</a>
+      <a href="mailto:nikunjmakwana473@email.com" class="nav-link">contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" id="about">
+  <div class="wrap">
+    <p class="hero-eyebrow">Game Developer · Portfolio</p>
+    <h1>Hi, I'm <strong>Nikunj Makwana</strong>.<br></h1>
+    <p class="hero-sub">a game developer focused on building engaging and interactive experiences.
+I’ve worked across 2D, 3D, mobile, and experimental game projects, solving unique design and technical challenges in each. My work blends creativity with problem-solving to turn ideas into playable worlds.</p>
+    <div class="hero-cta">
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all">all</button>
+      <button class="filter-btn" data-filter="unity">Unity</button>
+      <button class="filter-btn" data-filter="unreal">Unreal</button>
+      <button class="filter-btn" data-filter="2d">2D</button>
+      <button class="filter-btn" data-filter="3d">3D</button>
+      <button class="filter-btn" data-filter="mobile">Mobile</button>
+      <button class="filter-btn" data-filter="pc">PC</button>
+      <button class="filter-btn" data-filter="ar/vr">AR/VR</button>
+      <button class="filter-btn" data-filter="blender">Blender</button>
+   
+    </div>
+    <div class="project-grid" id="projectGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span class="footer-name">© 2026 Nikunj Makwana</span>
+    <div class="footer-links">
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="theme-bar" role="group" aria-label="Choose theme">
+  <span class="theme-bar-label">theme</span>
+  <button class="theme-dot" data-t="minimal"        data-label="minimal"        aria-label="Minimal"></button>
+  <button class="theme-dot" data-t="dark-editorial" data-label="dark editorial" aria-label="Dark editorial"></button>
+  <button class="theme-dot" data-t="retro-crt"      data-label="retro crt"      aria-label="Retro CRT"></button>
+  <button class="theme-dot" data-t="nature"         data-label="nature"         aria-label="Nature"></button>
+  <button class="theme-dot" data-t="cyberpunk"      data-label="cyberpunk"      aria-label="Cyberpunk"></button>
+  <button class="theme-dot" data-t="sunset"         data-label="sunset"         aria-label="Sunset"></button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   PROJECT DATA
+   ─────────────────────────────────────────────────────────────────
+   title       string
+   desc        string (1–2 sentences)
+   tags        string[] — lowercase, drives filter buttons
+   screenshots string[] — image URLs shown in hover strip
+                           use [] for placeholder
+   videos      { label, ytId }[] — ytId = ?v= part of YouTube URL
+                                   works with unlisted videos
+═══════════════════════════════════════════════════════════════════ */
+const PROJECTS = [
+ {
+    title: "Army Base Escape",
+    desc: "A high-intensity action game where you fight your way out of enemy territory using a weaponized vehicle.",
+    tags: ["unity","blender","mobile","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/e9g1GQaUMH0" }, 
+      { label: "", ytId: "https://youtu.be/tbmqyJYPgGU" }
+    ]
+  },
+  {
+    title: "Anointed Mobile",
+    desc: "A side-scrolling adventure based on King David, featuring cinematic camera systems, puzzles, and combat mechanics.",
+    tags: ["unreal","maya","mobile","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/YA4nOgw9Ad0" },
+      { label: "", ytId: "https://youtu.be/qMK9pKeT02c" },
+      { label: "", ytId: "https://youtu.be/gM9NmupJcUo" },
+      { label: "", ytId: "https://youtu.be/68207nGBCLQ" },
+      { label: "", ytId: "https://youtu.be/CuwGCNUS4gY" }
+    ]
+  },
+  {
+    title: "Bailey bridge VR Training",
+    desc: "An immersive VR training simulation designed for army personnel to learn the construction of Bailey bridges.",
+    tags: ["unreal","maya","ar/vr","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/8D15wN7-f9I" },
+      { label: "", ytId: "https://youtu.be/LCC1r7d2DvA" },
+      { label: "", ytId: "https://youtu.be/_bSE77sqRts" }
+    ]
+  },
+  {
+    title: "Clock Kids Game",
+    desc: "A fun and educational game that helps kids learn how to read clocks through interactive visuals and gameplay.",
+    tags: ["unity","blender","web","2d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/__e6MqcyfHk" }
+    ]
+  },
+  {
+    title: "Coding Champs Kids Game",
+    desc: "An educational game that teaches kids the fundamentals of coding through fun, interactive block-based programming challenges.",
+    tags: ["unity","blender","mobile","pc","web","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/Wx8rGQiX2AY" },
+      { label: "", ytId: "https://youtu.be/zscnP0EtETc" },
+      { label: "", ytId: "https://youtu.be/_uAAa1rgeHc" }
+    ]
+  },
+  {
+    title: "Club C",
+    desc: "An educational game that teaches kids money management through engaging mini-games, puzzles, and quizzes designed for interactive learning sessions.",
+    tags: ["unreal","maya","mobile","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/H5SrVAkm6mk" },
+      { label: "", ytId: "https://youtu.be/wW2LyPcQXwc" },
+      { label: "", ytId: "https://youtu.be/eo2dTZ4CuLI" },
+      { label: "", ytId: "https://youtu.be/5x0LKChzQHw" },
+      { label: "", ytId: "https://youtu.be/WS2TSAj_Cxw" },
+      { label: "", ytId: "https://youtu.be/TIxgkpM0-nc" },
+      { label: "", ytId: "https://youtu.be/dAM3MRrFPtY" },
+      { label: "", ytId: "https://youtu.be/IG0SRoyjSkE" }
+
+    ]
+  },
+  {
+    title: "Crakk The Run",
+    desc: "A fast-paced endless runner developed as a promotional game for a Bollywood movie, featuring high-energy gameplay inspired by the film.",
+    tags: ["unity","blender","mobile","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtube.com/shorts/QJ5g88HM6eU" },
+      { label: "", ytId: "https://youtube.com/shorts/CUl24uSXzQo" },
+      { label: "", ytId: "https://youtube.com/shorts/a8Rei_eFvYE" },
+      { label: "", ytId: "https://youtube.com/shorts/Z4tyH4Q-pPM" }
+    ]
+  },
+  {
+    title: "Card War",
+    desc: "A simple 2-player card game where the higher card wins each round, and victory goes to the player who collects all the cards.",
+    tags: ["unity","blender","mobile","web","2d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/Y5yn2BIQvgA" },
+      { label: "", ytId: "https://youtu.be/1VpqnPtQtpU" },
+      { label: "", ytId: "https://youtu.be/foITlCcmatg" }
+    ]
+  },
+  {
+    title: "House Flipper",
+    desc: "A renovation simulation game where players buy, repair, and transform rundown houses into beautifully upgraded spaces for profit.",
+    tags: ["unity","blender","mobile","pc","web","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/SdbPBh3RtbQ" },
+      { label: "", ytId: "https://youtu.be/aozUTsmSNtY" },
+      { label: "", ytId: "https://youtu.be/5gaW506ToHo" },
+      { label: "", ytId: "https://youtu.be/vJGlCg1Wx_w" },
+    ]
+  },
+  {
+    title: "Parking Puzzle",
+    desc: "A logic-based puzzle game where players clear a crowded parking lot by strategically moving and matching cars of the same color.",
+    tags: ["unity","blender","mobile","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/t9ePu6IMmP4" }
+    ]
+  },
+  {
+    title: "Solitaire",
+    desc: "A classic single-player card game where players strategically stack and organize cards to complete the deck in order.",
+    tags: ["unity","blender","mobile","web","2d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/DFpdQbJGDlY" },
+      { label: "", ytId: "https://youtu.be/dBccJ3wfhto" },
+      { label: "", ytId: "https://youtu.be/IQjWqR9Hox8" }
+    ]
+  },
+  {
+    title: "Solar System Simulation",
+    desc: "An interactive simulation that lets users explore the solar system, visualizing planetary motion, scale, and orbital mechanics in real time.",
+    tags: ["unity","blender","mobile","web","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/UgvOLg6aVEg" },
+      { label: "", ytId: "https://youtu.be/vzhDnOMDxP4" },
+      { label: "", ytId: "https://youtu.be/YbTHF7ORRGg" }
+    ]
+  },
+  {
+    title: "Slash'em All",
+    desc: "A stealth-action game where players strategically take down enemies, using timing and movement to eliminate targets without being detected.",
+    tags: ["unity","blender","mobile","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/9XtqmOTgC4w" },
+      { label: "", ytId: "https://youtu.be/KEqmhKu65nw" }
+    ]
+  },
+  {
+    title: "Train Connect",
+    desc: "A strategic puzzle game where players draw railway tracks with their finger to safely guide trains and prevent collisions.",
+    tags: ["unity","blender","mobile","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/PZtNfhh2pRo" },
+      { label: "", ytId: "https://youtu.be/hd9mcfCpuTs" }
+    ]
+  },
+  {
+    title: "Hypercasual Prototype",
+    desc: "An endless runner prototype featuring progression-based upgrade mechanics that enhance speed, abilities, and overall gameplay experience.",
+    tags: ["unity","blender","mobile","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/unulbMtWZF4" },
+      { label: "", ytId: "https://youtu.be/D0feN2vWDFA" }
+    ]
+  },
+  {
+    title: "Toy Sort",
+    desc: "A satisfying sorting puzzle game where players organize colored balls into matching tubes using logic and strategy.",
+    tags: ["unity","blender","mobile","2d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/x21zYaZxBQM" },
+      { label: "", ytId: "https://youtu.be/NV60hFZqoe4" }
+    ]
+  },
+  {
+    title: "Future Lab Kids Learning App",
+    desc: "An interactive VR learning app that helps kids explore core concepts of physics and biology through engaging activities and visuals.",
+    tags: ["unity","blender","ar/vr","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/OkUF-fk7pMs" },
+      { label: "", ytId: "https://youtu.be/PyBgUpgeIWw" },
+      { label: "", ytId: "https://youtu.be/lopeDgYQzUY" },
+      { label: "", ytId: "https://youtu.be/ZDYGUDQXYL4" },
+      { label: "", ytId: "https://youtu.be/fWG5ZbAtp_k" },
+      { label: "", ytId: "https://youtu.be/w3xK-FHCXRQ" }
+    ]
+  },
+  {
+    title: "Tourist Guide AR",
+    desc: "A prototype AR app that allows users to view attraction details and information overlaid onto real-world locations.",
+    tags: ["unity","blender","ar/vr","3d"],
+    screenshots: ["placeholder.jpg"],
+    videos: [
+      { label: "", ytId: "https://youtu.be/mwdmmTXQaUA" }
+    ]
+  }
+];
+
+/* ═══════════════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════════════ */
+
+/* Extracts the video ID from any YouTube URL format:
+   https://youtu.be/ID
+   https://www.youtube.com/watch?v=ID
+   https://youtube.com/shorts/ID
+   or just a bare ID */
+function getYtId(raw) {
+  if (!raw) return '';
+  // youtu.be/ID
+  let m = raw.match(/youtu\.be\/([^?&\s]+)/);
+  if (m) return m[1];
+  // youtube.com/shorts/ID
+  m = raw.match(/shorts\/([^?&\s]+)/);
+  if (m) return m[1];
+  // youtube.com/watch?v=ID
+  m = raw.match(/[?&]v=([^&\s]+)/);
+  if (m) return m[1];
+  // bare ID (no slashes, no dots)
+  if (!raw.includes('/') && !raw.includes('.')) return raw;
+  return raw;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDER GRID
+═══════════════════════════════════════════════════════════════════ */
+function renderGrid(filter) {
+  const grid = document.getElementById('projectGrid');
+  const list = filter === 'all' ? PROJECTS : PROJECTS.filter(p => p.tags.includes(filter));
+
+  grid.innerHTML = list.map(p => {
+    const idx  = PROJECTS.indexOf(p);
+    const vc   = p.videos.length;
+    const tags = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+    /* use first video's YT thumbnail as card image */
+    const firstId = vc > 0 ? getYtId(p.videos[0].ytId) : '';
+    const thumbImg = firstId
+      ? `<img src="https://img.youtube.com/vi/${firstId}/hqdefault.jpg" alt="${p.title}" loading="lazy" />`
+      : `<div class="ss-placeholder">no preview</div>`;
+
+    /* video badge */
+    const badge = vc > 0
+      ? `<div class="video-badge"><svg viewBox="0 0 10 10"><polygon points="3,1 9,5 3,9"/></svg>${vc} video${vc>1?'s':''}</div>`
+      : '';
+
+    /* play overlay on thumbnail */
+    const playOverlay = firstId
+      ? `<div class="thumb-play-overlay">
+           <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+             <rect width="68" height="48" rx="10" fill="rgba(0,0,0,0.65)"/>
+             <polygon points="26,13 26,35 50,24" fill="white"/>
+           </svg>
+         </div>`
+      : '';
+
+    return `
+      <div class="card" data-idx="${idx}" tabindex="0" role="button" aria-label="Open ${p.title}"
+           onclick="openModal(${idx})" onkeydown="if(event.key==='Enter')openModal(${idx})">
+        <div class="card-thumb">
+          ${thumbImg}
+          ${playOverlay}
+          ${badge}
+        </div>
+        <div class="card-body">
+          <p class="card-title">${p.title}</p>
+          <p class="card-desc">${p.desc}</p>
+          <div class="tag-row">${tags}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  attachCardHover();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CARD HOVER — handled purely by CSS now
+═══════════════════════════════════════════════════════════════════ */
+function attachCardHover() {
+  /* CSS handles the hover effects — nothing needed here */
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FILTERS
+═══════════════════════════════════════════════════════════════════ */
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid(btn.dataset.filter);
+});
+
+/* ═══════════════════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════════════════ */
+function openModal(idx) {
+  const p    = PROJECTS[idx];
+  const tags = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+  const vids = p.videos.length === 0 ? '' : `
+    <p class="videos-label">gameplay videos (${p.videos.length})</p>
+    <div class="video-stack">
+      ${p.videos.map((v, i) => {
+        const id    = getYtId(v.ytId);
+        const ytUrl = `https://www.youtube.com/watch?v=${id}`;
+        const label = v.label ? v.label : `Gameplay ${i + 1}`;
+        return `
+        <a class="video-card" href="${ytUrl}" target="_blank" rel="noopener">
+          <div class="video-thumb-wrap">
+            <svg viewBox="0 0 16 16"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 8.3l-5 3A.5.5 0 016 11V5a.5.5 0 01.77-.42l5 3a.5.5 0 010 .72z"/></svg>
+          </div>
+          <span class="video-card-label">${label}</span>
+          <span class="video-watch-btn">
+            <svg viewBox="0 0 16 16"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 8.3l-5 3A.5.5 0 016 11V5a.5.5 0 01.77-.42l5 3a.5.5 0 010 .72z"/></svg>
+            Watch
+          </span>
+        </a>`;
+      }).join('')}
+    </div>`;
+
+  document.getElementById('modalBody').innerHTML = `
+    <p id="modalTitle" class="modal-title">${p.title}</p>
+    <p class="modal-desc">${p.desc}</p>
+    <div class="modal-tags">${tags}</div>${vids}`;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME
+═══════════════════════════════════════════════════════════════════ */
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('nk-theme', t);
+  document.querySelectorAll('.theme-dot').forEach(d => d.classList.toggle('active', d.dataset.t === t));
+}
+document.querySelector('.theme-bar').addEventListener('click', e => {
+  const dot = e.target.closest('.theme-dot');
+  if (dot) applyTheme(dot.dataset.t);
+});
+applyTheme(localStorage.getItem('nk-theme') || 'minimal');
+
+/* ── INIT ── */
+renderGrid('all');
+</script>
+</body>
+</html>
